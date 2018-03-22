@@ -1,0 +1,13 @@
+
+_ReSharper.*
+.idea
+.vs
+
+packages
+
+[Bb]in
+[Oo]bj
+
+*.sln.user
+*.csproj.user
+*.DotSettings
