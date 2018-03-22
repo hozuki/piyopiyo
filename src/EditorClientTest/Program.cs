@@ -13,7 +13,7 @@ namespace EditorClientTest {
                 return;
             }
 
-            Test();
+            Test(Convert.ToInt32(args[1]));
 
 #if DEBUG
             Console.WriteLine("Press any key to continue..");
@@ -21,8 +21,8 @@ namespace EditorClientTest {
 #endif
         }
 
-        private static async void Test() {
-            var serverUri = new Uri("http://localhost:9999");
+        private static async void Test(int port) {
+            var serverUri = new Uri("http://localhost:" + port.ToString());
 
             using (var client = new JsonRpcClient(serverUri)) {
                 var result = await client.CallAsync(CommonProtocolMethodNames.Preview_Play);
