@@ -9,7 +9,7 @@ namespace OpenMLTD.Piyopiyo.Extensions {
         [NotNull]
         public static byte[] ReadMaxConstrained([NotNull] this Stream stream, long maxBytesToRead) {
             if (maxBytesToRead <= 0) {
-                return JsonRpcServerHelper.EmptyBytes;
+                return BvspHelper.EmptyBytes;
             }
 
             const int bufferSize = 10240;

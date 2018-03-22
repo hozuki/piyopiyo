@@ -2,7 +2,7 @@
 
 namespace OpenMLTD.Piyopiyo.Net {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public static class CommonProtocolPaths {
+    public static class CommonProtocolMethodNames {
 
         public const string General_SimInitialize = "general/simInitialize";
         public const string General_SimInitialized = "general/simInitialized";

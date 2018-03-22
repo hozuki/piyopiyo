@@ -11,7 +11,7 @@ namespace OpenMLTD.Piyopiyo.Extensions {
 
         public static void RpcOk<T>([NotNull] this HttpContext context, [CanBeNull] T result, [CanBeNull] string id = null) {
             var responseObject = JsonRpcResponseWrapper.FromResult(result, id);
-            var responseText = JsonRpcServerHelper.JsonSerializeToString(responseObject);
+            var responseText = BvspHelper.JsonSerializeToString(responseObject);
 
             Ok(context, responseText);
         }
@@ -22,9 +22,13 @@ namespace OpenMLTD.Piyopiyo.Extensions {
 
         public static void RpcError<T>([NotNull] this HttpContext context, int errorCode, [NotNull] string message, [CanBeNull] T data, [CanBeNull] string id = null, HttpStatusCode statusCode = HttpStatusCode.BadRequest) {
             var responseObject = JsonRpcResponseWrapper.FromError(errorCode, message, data, id);
-            var responseText = JsonRpcServerHelper.JsonSerializeToString(responseObject);
+            var responseText = BvspHelper.JsonSerializeToString(responseObject);
 
             Respond(context, statusCode, responseText);
+        }
+
+        public static void RpcErrorNotImplemented([NotNull] this HttpContext context, [CanBeNull] string id = null) {
+            RpcError(context, JsonRpcErrorCodes.InternalError, "Method not implemented", (object)null, id, HttpStatusCode.NotImplemented);
         }
 
         public static void RpcError([NotNull] this HttpContext context, int errorCode, [NotNull] string message, [CanBeNull] string id = null, HttpStatusCode statusCode = HttpStatusCode.BadRequest) {
@@ -32,7 +36,7 @@ namespace OpenMLTD.Piyopiyo.Extensions {
         }
 
         public static void Ok([NotNull] this HttpContext context, [CanBeNull] string body) {
-            Respond(context, HttpStatusCode.OK, body, JsonRpcServerHelper.Utf8WithoutBom);
+            Respond(context, HttpStatusCode.OK, body, BvspHelper.Utf8WithoutBom);
         }
 
         public static void Ok([NotNull] this HttpContext context, [CanBeNull] string body, [NotNull] Encoding bodyEncoding) {
@@ -48,7 +52,7 @@ namespace OpenMLTD.Piyopiyo.Extensions {
         }
 
         public static void Respond([NotNull] this HttpContext context, int statusCode, [CanBeNull] string body) {
-            Respond(context, statusCode, body, JsonRpcServerHelper.Utf8WithoutBom);
+            Respond(context, statusCode, body, BvspHelper.Utf8WithoutBom);
         }
 
         public static void Respond([NotNull] this HttpContext context, HttpStatusCode statusCode, [CanBeNull] string body, [NotNull] Encoding bodyEncoding) {
@@ -67,7 +71,7 @@ namespace OpenMLTD.Piyopiyo.Extensions {
             byte[] bytes;
 
             if (string.IsNullOrEmpty(body)) {
-                bytes = JsonRpcServerHelper.EmptyBytes;
+                bytes = BvspHelper.EmptyBytes;
             } else {
                 bytes = bodyEncoding.GetBytes(body);
             }
@@ -107,9 +111,11 @@ namespace OpenMLTD.Piyopiyo.Extensions {
                 }
             }
 
+#if DEBUG
             if (response.Headers["Access-Control-Allow-Origin"] == null) {
                 response.Headers["Access-Control-Allow-Origin"] = "*";
             }
+#endif
 
             if (response.OutputStream.CanWrite) {
                 if (body.Length > 0) {

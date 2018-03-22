@@ -44,6 +44,7 @@ namespace OpenMLTD.Piyopiyo.Net {
         [NotNull]
         public string JsonRpcVersion { get; set; } = "2.0";
 
+        [JsonProperty]
         [CanBeNull]
         public string Id { get; set; }
 

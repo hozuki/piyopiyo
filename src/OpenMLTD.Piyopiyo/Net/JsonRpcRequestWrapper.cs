@@ -15,14 +15,16 @@ namespace OpenMLTD.Piyopiyo.Net {
         }
 
         [NotNull]
-        public static JsonRpcRequestWrapper FromParams([NotNull] string method, [NotNull, ItemCanBeNull] IEnumerable paramList, [CanBeNull] string id = null) {
+        public static JsonRpcRequestWrapper FromParams([NotNull] string method, [CanBeNull, ItemCanBeNull] IEnumerable paramList, [CanBeNull] string id = null) {
             var wrapper = new JsonRpcRequestWrapper {
                 Method = method,
                 Id = id
             };
 
-            foreach (var param in paramList) {
-                wrapper.Params.Add(JToken.FromObject(param));
+            if (paramList != null) {
+                foreach (var param in paramList) {
+                    wrapper.Params.Add(JToken.FromObject(param));
+                }
             }
 
             return wrapper;
@@ -32,12 +34,15 @@ namespace OpenMLTD.Piyopiyo.Net {
         [NotNull]
         public string JsonRpcVersion { get; set; } = "2.0";
 
+        [JsonProperty]
         [NotNull]
         public string Method { get; set; }
 
+        [JsonProperty]
         [NotNull, ItemCanBeNull]
         public List<JToken> Params { get; }
 
+        [JsonProperty]
         [CanBeNull]
         public object Id { get; set; }
 

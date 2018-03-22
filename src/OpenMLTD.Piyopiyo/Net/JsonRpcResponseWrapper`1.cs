@@ -10,6 +10,10 @@ namespace OpenMLTD.Piyopiyo.Net {
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public sealed class JsonRpcResponseWrapper<T> : JsonRpcResponseWrapper {
 
+        [JsonConstructor]
+        internal JsonRpcResponseWrapper() {
+        }
+
         [CanBeNull]
         public T Result { get; set; }
 

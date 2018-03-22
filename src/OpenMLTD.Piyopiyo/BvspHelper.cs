@@ -5,8 +5,11 @@ using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace OpenMLTD.Piyopiyo.Net {
-    public static class JsonRpcServerHelper {
+namespace OpenMLTD.Piyopiyo {
+    public static class BvspHelper {
+
+        public const string BvspContentType = "application/jsonrpc-bvsp";
+        public const string BvspCharSet = "utf-8";
 
         [NotNull]
         public static readonly byte[] EmptyBytes = new byte[0];

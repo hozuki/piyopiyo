@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Reflection;
 using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
@@ -92,7 +93,7 @@ namespace OpenMLTD.Piyopiyo.Net {
                 IsValid = false
             };
 
-            if (request.HttpMethod.ToLowerInvariant() != "post") {
+            if (!request.HttpMethod.Equals("post", StringComparison.OrdinalIgnoreCase)) {
                 r.ErrorDescription = $"Method \"{request.HttpMethod}\" is not allowed here.";
                 r.SuggestedHttpStatusCode = HttpStatusCode.MethodNotAllowed;
 
@@ -144,7 +145,19 @@ namespace OpenMLTD.Piyopiyo.Net {
                 return r;
             }
 
-            if (contentTypeStr.ToLowerInvariant() != BvspContentType) {
+            MediaTypeHeaderValue mediaTypeHeader;
+
+            try {
+                mediaTypeHeader = MediaTypeHeaderValue.Parse(contentTypeStr);
+            } catch (Exception ex) {
+                r.ErrorDescription = $"Failed to parse content type \"{contentTypeStr}\": {ex}";
+                r.SuggestedHttpStatusCode = HttpStatusCode.NotAcceptable;
+
+                return r;
+            }
+
+            if (!mediaTypeHeader.MediaType.Equals(BvspHelper.BvspContentType, StringComparison.OrdinalIgnoreCase)
+                || !mediaTypeHeader.CharSet.Equals(BvspHelper.BvspCharSet, StringComparison.OrdinalIgnoreCase)) {
                 r.ErrorDescription = $"Invalid content type: \"{contentTypeStr}\".";
                 r.SuggestedHttpStatusCode = HttpStatusCode.NotAcceptable;
 
@@ -170,7 +183,7 @@ namespace OpenMLTD.Piyopiyo.Net {
             string bodyStr;
 
             try {
-                bodyStr = JsonRpcServerHelper.Utf8WithoutBom.GetString(body);
+                bodyStr = BvspHelper.Utf8WithoutBom.GetString(body);
             } catch (Exception ex) {
                 r.ErrorDescription = $"An exception occurred while trying to parse request body as string: {ex}";
                 r.SuggestedHttpStatusCode = HttpStatusCode.BadRequest;
@@ -182,7 +195,7 @@ namespace OpenMLTD.Piyopiyo.Net {
             JToken token;
 
             try {
-                token = JsonRpcServerHelper.JsonDeserialize(bodyStr);
+                token = BvspHelper.JsonDeserialize(bodyStr);
             } catch (Exception ex) {
                 r.ErrorDescription = $"An exception occurred while trying to parse request body as JSON: {ex}";
                 r.SuggestedHttpStatusCode = HttpStatusCode.BadRequest;
@@ -236,7 +249,7 @@ namespace OpenMLTD.Piyopiyo.Net {
 
         private void Server_RequestReceived(object sender, HttpRequestEventArgs e) {
 #if DEBUG
-            if (e.Request.HttpMethod.ToLowerInvariant() == "options") {
+            if (e.Request.HttpMethod.Equals("options", StringComparison.OrdinalIgnoreCase)) {
                 // Handles testing in browsers' fetch().
                 // Preflight test: https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS
                 var headers = new Dictionary<string, string> {
@@ -245,7 +258,7 @@ namespace OpenMLTD.Piyopiyo.Net {
                     ["Access-Control-Allow-Headers"] = "Content-Type, Content-Length"
                 };
 
-                e.Context.Respond(HttpStatusCode.OK, JsonRpcServerHelper.EmptyBytes, headers);
+                e.Context.Respond(HttpStatusCode.OK, BvspHelper.EmptyBytes, headers);
 
                 return;
             }
@@ -288,7 +301,7 @@ namespace OpenMLTD.Piyopiyo.Net {
 
             Debug.Print(description);
 
-            e.Context.Respond(HttpStatusCode.InternalServerError, description);
+            e.Context.RpcError(JsonRpcErrorCodes.InternalError, description, statusCode: HttpStatusCode.InternalServerError);
         }
 
         private void MethodNotFoundRequestHandler(object sender, JsonRpcMethodEventArgs e) {
@@ -323,7 +336,6 @@ namespace OpenMLTD.Piyopiyo.Net {
         }
 
         private const string ServerBanner = "Piyopiyo";
-        private const string BvspContentType = "application/jsonrpc-bvsp; charset=utf-8";
         private const long MaxRequestBodySize = 10 * 1024 * 1024;
 
         private readonly HttpServer _server;

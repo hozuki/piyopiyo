@@ -47,6 +47,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -59,8 +61,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\StreamExtensions.cs" />
-    <Compile Include="Net\JsonRpcServerHelper.cs" />
-    <Compile Include="Net\CommonProtocolPaths.cs" />
+    <Compile Include="Net\JsonRpcCallResult.cs" />
+    <Compile Include="Net\JsonRpcClient.cs" />
+    <Compile Include="BvspHelper.cs" />
+    <Compile Include="Net\CommonProtocolMethodNames.cs" />
     <Compile Include="Net\JsonRpcServer.cs" />
     <Compile Include="DisposableBase.cs" />
     <Compile Include="Editor\EditorServer.cs" />
@@ -69,7 +73,6 @@
     <Compile Include="Net\JsonRpcMethodEventArgs.cs" />
     <Compile Include="Net\JsonRpcMethodHandler.cs" />
     <Compile Include="Net\JsonRpcRequestWrapper.cs" />
-    <Compile Include="Net\JsonRpcResponseItemWrapper.cs" />
     <Compile Include="Net\JsonRpcResponseWrapper.cs" />
     <Compile Include="Net\JsonRpcErrorWrapper`1.cs" />
     <Compile Include="Net\JsonRpcResponseWrapper`1.cs" />
@@ -80,6 +83,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

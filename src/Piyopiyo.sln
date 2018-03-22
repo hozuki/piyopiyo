@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMLTD.Piyopiyo", "OpenML
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditorTest", "EditorTest\EditorTest.csproj", "{4F9F5553-267F-4C0A-AE3B-577A0DB431B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditorClientTest", "EditorClientTest\EditorClientTest.csproj", "{1F42835C-FBB9-4634-9198-FFF4BDFDF1BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4F9F5553-267F-4C0A-AE3B-577A0DB431B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F9F5553-267F-4C0A-AE3B-577A0DB431B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F9F5553-267F-4C0A-AE3B-577A0DB431B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F42835C-FBB9-4634-9198-FFF4BDFDF1BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F42835C-FBB9-4634-9198-FFF4BDFDF1BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F42835C-FBB9-4634-9198-FFF4BDFDF1BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F42835C-FBB9-4634-9198-FFF4BDFDF1BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

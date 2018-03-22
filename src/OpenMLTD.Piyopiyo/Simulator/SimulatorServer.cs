@@ -1,5 +1,4 @@
-﻿using System.Net;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using OpenMLTD.Piyopiyo.Extensions;
 using OpenMLTD.Piyopiyo.Net;
 
@@ -10,49 +9,49 @@ namespace OpenMLTD.Piyopiyo.Simulator {
             ScanSessionHandlers(this);
         }
 
-        [MethodHandler(CommonProtocolPaths.General_SimInitialize)]
+        [MethodHandler(CommonProtocolMethodNames.General_SimInitialize)]
         protected virtual void OnGeneralSimInitialize([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
-            e.Context.Respond(HttpStatusCode.NotImplemented, JsonRpcServerHelper.EmptyBytes);
+            e.Context.RpcErrorNotImplemented();
         }
 
-        [MethodHandler(CommonProtocolPaths.General_SimExit)]
+        [MethodHandler(CommonProtocolMethodNames.General_SimExit)]
         protected virtual void OnGeneralSimExit([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
-            e.Context.Respond(HttpStatusCode.NotImplemented, JsonRpcServerHelper.EmptyBytes);
+            e.Context.RpcErrorNotImplemented();
         }
 
-        [MethodHandler(CommonProtocolPaths.General_EdExit)]
+        [MethodHandler(CommonProtocolMethodNames.General_EdExit)]
         protected virtual void OnGeneralEdExit([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
-            e.Context.Respond(HttpStatusCode.NotImplemented, JsonRpcServerHelper.EmptyBytes);
+            e.Context.RpcErrorNotImplemented();
         }
 
-        [MethodHandler(CommonProtocolPaths.Preview_Play)]
+        [MethodHandler(CommonProtocolMethodNames.Preview_Play)]
         protected virtual void OnGeneralPreviewPlay([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
-            e.Context.Respond(HttpStatusCode.NotImplemented, JsonRpcServerHelper.EmptyBytes);
+            e.Context.RpcErrorNotImplemented();
         }
 
-        [MethodHandler(CommonProtocolPaths.Preview_Pause)]
+        [MethodHandler(CommonProtocolMethodNames.Preview_Pause)]
         protected virtual void OnGeneralPreviewPause([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
-            e.Context.Respond(HttpStatusCode.NotImplemented, JsonRpcServerHelper.EmptyBytes);
+            e.Context.RpcErrorNotImplemented();
         }
 
-        [MethodHandler(CommonProtocolPaths.Preview_Stop)]
+        [MethodHandler(CommonProtocolMethodNames.Preview_Stop)]
         protected virtual void OnGeneralPreviewStop([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
-            e.Context.Respond(HttpStatusCode.NotImplemented, JsonRpcServerHelper.EmptyBytes);
+            e.Context.RpcErrorNotImplemented();
         }
 
-        [MethodHandler(CommonProtocolPaths.Preview_GetPlaybackState)]
+        [MethodHandler(CommonProtocolMethodNames.Preview_GetPlaybackState)]
         protected virtual void OnGeneralPreviewGetPlaybackState([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
-            e.Context.Respond(HttpStatusCode.NotImplemented, JsonRpcServerHelper.EmptyBytes);
+            e.Context.RpcErrorNotImplemented();
         }
 
-        [MethodHandler(CommonProtocolPaths.Preview_GotoTime)]
+        [MethodHandler(CommonProtocolMethodNames.Preview_GotoTime)]
         protected virtual void OnGeneralPreviewGotoTime([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
-            e.Context.Respond(HttpStatusCode.NotImplemented, JsonRpcServerHelper.EmptyBytes);
+            e.Context.RpcErrorNotImplemented();
         }
 
-        [MethodHandler(CommonProtocolPaths.Edit_Reload)]
+        [MethodHandler(CommonProtocolMethodNames.Edit_Reload)]
         protected virtual void OnGeneralEditReload([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
-            e.Context.Respond(HttpStatusCode.NotImplemented, JsonRpcServerHelper.EmptyBytes);
+            e.Context.RpcErrorNotImplemented();
         }
 
     }

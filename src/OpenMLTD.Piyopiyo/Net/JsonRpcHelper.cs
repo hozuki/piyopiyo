@@ -1,44 +1,102 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 
 namespace OpenMLTD.Piyopiyo.Net {
-    internal static class JsonRpcHelper {
+    public static class JsonRpcHelper {
 
-        internal static bool IsRequestValid([NotNull] JObject obj) {
+        public static bool IsRequestValid([NotNull] JToken obj) {
             return IsRequestValid(obj, out var _);
         }
 
-        internal static bool IsRequestValid([NotNull] JObject obj, [NotNull, ItemNotNull] out IReadOnlyList<string> messages) {
+        public static bool IsRequestValid([NotNull] JToken obj, [NotNull, ItemNotNull] out IReadOnlyList<string> messages) {
             if (_requestSchema == null) {
                 _requestSchema = JSchema.Parse(JsonRpcRequestSchema);
             }
 
-            var b = obj.IsValid(_requestSchema, out IList<string> validatorMessages);
+            var b = obj.IsValid(_requestSchema, out IList<string> errors);
 
-            messages = validatorMessages.ToArray();
+            messages = errors.ToArray();
 
             return b;
         }
 
-        internal static bool IsResponseValid([NotNull] JObject obj) {
+        public static bool IsResponseValid([NotNull] JToken obj) {
             return IsResponseValid(obj, out var _);
         }
 
-        internal static bool IsResponseValid([NotNull] JObject obj, [NotNull, ItemNotNull] out IReadOnlyList<string> messages) {
-            if (_responseSchema == null) {
-                _responseSchema = JSchema.Parse(JsonRpcResponseSchema);
-            }
+        public static bool IsResponseValid([NotNull] JToken obj, [NotNull, ItemNotNull] out IReadOnlyList<string> messages) {
+            //if (_responseSchema == null) {
+            //    _responseSchema = JSchema.Parse(JsonRpcResponseSchema);
+            //}
 
-            var b = obj.IsValid(_responseSchema, out IList<string> validatorMessages);
+            //var b = obj.IsValid(_responseSchema, out IList<string> errors);
 
-            messages = validatorMessages.ToArray();
+            //messages = errors.ToArray();
 
-            return b;
+            //return b;
+
+            // TODO: Sadly, Json.NET does not support a full functionality of JSON schemas. See https://github.com/JamesNK/Newtonsoft.Json.Schema/issues/132.
+            // This error causes Json.NET failing to validate the response object. Verify it here: https://www.jsonschemavalidator.net/
+            // So we have to ignore that and directly return true, for now.
+
+            messages = EmptyStringArray;
+
+            return true;
         }
 
+        public static bool IsResponseSuccessful([NotNull] JToken token) {
+            if (!IsResponseValid(token, out var errorMessages)) {
+                throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + string.Join("\n", errorMessages));
+            }
+
+            if (token["result"] != null) {
+                return true;
+            } else if (token["error"] != null) {
+                return false;
+            } else {
+                throw new FormatException("The response object does not conform JSON RPC 2.0 specification.");
+            }
+        }
+
+        [NotNull]
+        public static JsonRpcErrorWrapper<TErrorData> TranslateAsError<TErrorData>([NotNull] JToken token) {
+            if (!IsResponseValid(token, out var errorMessages)) {
+                throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + string.Join("\n", errorMessages));
+            }
+
+            if (token["error"] != null) {
+                var result = token.ToObject<JsonRpcErrorWrapper<TErrorData>>();
+                return result;
+            } else {
+                throw new FormatException("The response object does not contain a valid error object. Maybe it contains a response object.");
+            }
+        }
+
+        [NotNull]
+        public static JsonRpcErrorWrapper<object> TranslateAsError([NotNull] JToken token) {
+            return TranslateAsError<object>(token);
+        }
+
+        [NotNull]
+        public static JsonRpcResponseWrapper<TResult> TranslateAsResponse<TResult>([NotNull] JToken token) {
+            if (!IsResponseValid(token, out var errorMessages)) {
+                throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + string.Join("\n", errorMessages));
+            }
+
+            if (token["result"] != null) {
+                var result = token.ToObject<JsonRpcResponseWrapper<TResult>>();
+                return result;
+            } else {
+                throw new FormatException("The response object does not contain a valid response object. Maybe it contains an error object.");
+            }
+        }
+
+        // https://github.com/fge/sample-json-schemas/tree/master/jsonrpc2.0
         private const string JsonRpcRequestSchema = @"{
     ""$schema"": ""http://json-schema.org/draft-04/schema#"",
     ""description"": ""A JSON RPC 2.0 request"",
@@ -77,6 +135,7 @@ namespace OpenMLTD.Piyopiyo.Net {
     }
 }";
 
+        // https://github.com/fge/sample-json-schemas/tree/master/jsonrpc2.0
         private const string JsonRpcResponseSchema = @"{
     ""$schema"": ""http://json-schema.org/draft-04/schema#"",
     ""description"": ""A JSON RPC 2.0 response"",
@@ -145,6 +204,8 @@ namespace OpenMLTD.Piyopiyo.Net {
         }
     }
 }";
+
+        private static readonly string[] EmptyStringArray = new string[0];
 
         private static JSchema _requestSchema;
         private static JSchema _responseSchema;
