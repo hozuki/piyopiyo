@@ -7,20 +7,18 @@ using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 
 namespace OpenMLTD.Piyopiyo.Net {
-    public sealed class JsonRpcClient : DisposableBase {
+    public class JsonRpcClient : DisposableBase {
 
-        public JsonRpcClient([NotNull] Uri serverUri) {
+        public JsonRpcClient() {
             var clientHandler = new HttpClientHandler();
 
             BaseClientHandler = clientHandler;
 
             _baseClient = new HttpClient(clientHandler, true);
-
-            ServerUri = serverUri;
         }
 
         [NotNull, ItemNotNull]
-        public async Task<JsonRpcCallResult> CallAsync([NotNull] string method, [CanBeNull, ItemCanBeNull] IEnumerable arguments = null, [CanBeNull] string id = null) {
+        public async Task<JsonRpcCallResult> CallAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull, ItemCanBeNull] IEnumerable arguments = null, [CanBeNull] string id = null) {
             var requestObject = JsonRpcRequestWrapper.FromParams(method, arguments, id);
             var requestText = BvspHelper.JsonSerializeToString(requestObject);
 
@@ -30,7 +28,7 @@ namespace OpenMLTD.Piyopiyo.Net {
                 CharSet = BvspHelper.BvspCharSet
             };
 
-            var response = await _baseClient.PostAsync(ServerUri, httpContent);
+            var response = await _baseClient.PostAsync(serverUri, httpContent);
 
             JToken token = null;
 
@@ -45,11 +43,11 @@ namespace OpenMLTD.Piyopiyo.Net {
             return new JsonRpcCallResult(response.StatusCode, token);
         }
 
+        [NotNull]
         public HttpClientHandler BaseClientHandler { get; }
 
+        [NotNull]
         public HttpClient BaseClient => _baseClient;
-
-        public Uri ServerUri { get; }
 
         protected override void Dispose(bool disposing) {
             _baseClient.Dispose();

@@ -25,8 +25,8 @@ namespace EditorClientTest {
         private static async void Test(int port) {
             var serverUri = new Uri("http://localhost:" + port.ToString());
 
-            using (var client = new JsonRpcClient(serverUri)) {
-                var result = await client.CallAsync(CommonProtocolMethodNames.Preview_Play);
+            using (var client = new JsonRpcClient()) {
+                var result = await client.CallAsync(serverUri, CommonProtocolMethodNames.Preview_Play);
 
                 Console.WriteLine("Response status code: {0} ({1})", (int)result.StatusCode, result.StatusCode);
 
