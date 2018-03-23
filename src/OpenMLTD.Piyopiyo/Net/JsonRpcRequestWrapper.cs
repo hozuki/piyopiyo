@@ -35,7 +35,7 @@ namespace OpenMLTD.Piyopiyo.Net {
         }
 
         [CanBeNull]
-        [ContractAnnotation("paramArray:null => null")]
+        [ContractAnnotation("paramArray:null => null; paramArray:notnull => notnull")]
         public static T ParamArrayToObject<T>([CanBeNull] JArray paramArray) {
             var t = typeof(T);
             var r = ParamArrayToObject(paramArray, t);
@@ -53,7 +53,7 @@ namespace OpenMLTD.Piyopiyo.Net {
         /// <param name="objectType">Type of the entity class.</param>
         /// <returns>Deserialized object.</returns>
         [CanBeNull]
-        [ContractAnnotation("paramArray:null => null")]
+        [ContractAnnotation("paramArray:null => null; paramArray:notnull => notnull")]
         public static object ParamArrayToObject([CanBeNull] JArray paramArray, [NotNull] Type objectType) {
             if (ReferenceEquals(paramArray, null)) {
                 return TypeHelper.Default(objectType);
