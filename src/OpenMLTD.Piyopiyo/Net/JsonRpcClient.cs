@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Collections;
+using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -50,7 +52,17 @@ namespace OpenMLTD.Piyopiyo.Net {
                 CharSet = BvspHelper.BvspCharSet
             };
 
-            var response = await _baseClient.PostAsync(serverUri, httpContent);
+            HttpResponseMessage response;
+
+            try {
+                response = await _baseClient.PostAsync(serverUri, httpContent);
+            } catch (AggregateException ex) {
+                Debug.Print(ex.ToString());
+                return new JsonRpcCallResult(HttpStatusCode.BadRequest, null);
+            } catch (Exception ex) {
+                Debug.Print(ex.ToString());
+                return new JsonRpcCallResult(HttpStatusCode.BadRequest, null);
+            }
 
             JToken token = null;
 
