@@ -80,6 +80,7 @@
     <Compile Include="Net\MethodHandlerAttribute.cs" />
     <Compile Include="Net\JsonRpcHelper.cs" />
     <Compile Include="Simulator\SimulatorServer.cs" />
+    <Compile Include="TypeHelper.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
