@@ -10,7 +10,15 @@ namespace OpenMLTD.Piyopiyo.Net {
     public static class JsonRpcHelper {
 
         public static bool IsRequestValid([NotNull] JToken obj) {
-            return IsRequestValid(obj, out var _);
+            return IsRequestValid(obj, out IReadOnlyList<string> _);
+        }
+
+        public static bool IsRequestValid([NotNull] JToken obj, [NotNull] out string errorMessage) {
+            var b = IsRequestValid(obj, out IReadOnlyList<string> messages);
+
+            errorMessage = string.Join("\n", messages);
+
+            return b;
         }
 
         public static bool IsRequestValid([NotNull] JToken obj, [NotNull, ItemNotNull] out IReadOnlyList<string> messages) {
@@ -26,7 +34,15 @@ namespace OpenMLTD.Piyopiyo.Net {
         }
 
         public static bool IsResponseValid([NotNull] JToken obj) {
-            return IsResponseValid(obj, out var _);
+            return IsResponseValid(obj, out IReadOnlyList<string> _);
+        }
+
+        public static bool IsResponseValid([NotNull] JToken obj, [NotNull] out string errorMessage) {
+            var b = IsResponseValid(obj, out IReadOnlyList<string> messages);
+
+            errorMessage = string.Join("\n", messages);
+
+            return b;
         }
 
         public static bool IsResponseValid([NotNull] JToken obj, [NotNull, ItemNotNull] out IReadOnlyList<string> messages) {
@@ -50,8 +66,8 @@ namespace OpenMLTD.Piyopiyo.Net {
         }
 
         public static bool IsResponseSuccessful([NotNull] JToken token) {
-            if (!IsResponseValid(token, out var errorMessages)) {
-                throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + string.Join("\n", errorMessages));
+            if (!IsResponseValid(token, out string errorMessage)) {
+                throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + errorMessage);
             }
 
             if (token["result"] != null) {
@@ -65,8 +81,8 @@ namespace OpenMLTD.Piyopiyo.Net {
 
         [NotNull]
         public static JsonRpcErrorWrapper<TErrorData> TranslateAsError<TErrorData>([NotNull] JToken token) {
-            if (!IsResponseValid(token, out var errorMessages)) {
-                throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + string.Join("\n", errorMessages));
+            if (!IsResponseValid(token, out string errorMessage)) {
+                throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + errorMessage);
             }
 
             if (token["error"] != null) {
@@ -84,8 +100,8 @@ namespace OpenMLTD.Piyopiyo.Net {
 
         [NotNull]
         public static JsonRpcResponseWrapper<TResult> TranslateAsResponse<TResult>([NotNull] JToken token) {
-            if (!IsResponseValid(token, out var errorMessages)) {
-                throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + string.Join("\n", errorMessages));
+            if (!IsResponseValid(token, out string errorMessage)) {
+                throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + errorMessage);
             }
 
             if (token["result"] != null) {

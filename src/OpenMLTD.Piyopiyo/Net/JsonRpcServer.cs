@@ -212,8 +212,8 @@ namespace OpenMLTD.Piyopiyo.Net {
                 return r;
             }
 
-            if (!JsonRpcHelper.IsRequestValid(jobj, out var jsonSchemaMessages)) {
-                r.ErrorDescription = "The request object is not a single JSON RPC 2.0 request object:\n" + string.Join("\n", jsonSchemaMessages);
+            if (!JsonRpcHelper.IsRequestValid(jobj, out string jsonSchemaMessage)) {
+                r.ErrorDescription = "The request object is not a single JSON RPC 2.0 request object:\n" + jsonSchemaMessage;
                 r.SuggestedHttpStatusCode = HttpStatusCode.BadRequest;
 
                 return r;
