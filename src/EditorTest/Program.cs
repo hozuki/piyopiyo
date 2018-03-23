@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using OpenMLTD.Piyopiyo.Editor;
 using OpenMLTD.Piyopiyo.Net;
 
@@ -11,6 +10,7 @@ namespace EditorTest {
 
         private static void Main(string[] args) {
             TestRequestDeserialization();
+            TestRequestWrapper();
 
             var server = new EditorServer();
 
@@ -43,6 +43,26 @@ namespace EditorTest {
             Console.WriteLine("You are in debug mode. Press any key again to exit.");
             Console.ReadKey(true);
 #endif
+        }
+
+        private static void TestRequestWrapper() {
+            const string json = @"{
+    ""jsonrpc"" : ""2.0"",
+    ""method"": ""method1"",
+    ""params"" : [
+        { ""name"" : ""My Name"", ""age"" : 10000 },
+        10,
+        ""2012-04-23T18:25:43.511Z""
+    ],
+    ""id"": null
+}";
+
+            var jobj = JObject.Parse(json);
+            var obj = JsonRpcHelper.TranslateAsRequest(jobj);
+            var @params = JsonRpcRequestWrapper.ParamArrayToObject<SimpleClass>(obj.Params);
+            var serialized = JsonConvert.SerializeObject(@params);
+
+            Debug.Print(serialized);
         }
 
         private static void TestRequestDeserialization() {

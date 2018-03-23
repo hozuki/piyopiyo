@@ -15,12 +15,12 @@ namespace OpenMLTD.Piyopiyo.Net {
 
         [JsonConstructor]
         private JsonRpcRequestWrapper() {
-            Params = new List<JToken>();
         }
 
         [NotNull]
         public static JsonRpcRequestWrapper FromParams([NotNull] string method, [CanBeNull, ItemCanBeNull] IEnumerable paramList, [CanBeNull] string id = null) {
             var wrapper = new JsonRpcRequestWrapper {
+                Params = new JArray(),
                 Method = method,
                 Id = id
             };
@@ -163,7 +163,7 @@ namespace OpenMLTD.Piyopiyo.Net {
 
         [JsonProperty]
         [NotNull, ItemCanBeNull]
-        public List<JToken> Params { get; }
+        public JArray Params { get; set; }
 
         [JsonProperty]
         [CanBeNull]

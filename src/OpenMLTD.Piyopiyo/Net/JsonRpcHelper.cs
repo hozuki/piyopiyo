@@ -80,6 +80,17 @@ namespace OpenMLTD.Piyopiyo.Net {
         }
 
         [NotNull]
+        public static JsonRpcRequestWrapper TranslateAsRequest([NotNull] JToken token) {
+            if (!IsRequestValid(token, out string errorMessage)) {
+                throw new FormatException("The response object is not a valid JSON RPC 2.0 request object:\n" + errorMessage);
+            }
+
+            var obj = token.ToObject<JsonRpcRequestWrapper>();
+
+            return obj;
+        }
+
+        [NotNull]
         public static JsonRpcErrorWrapper<TErrorData> TranslateAsError<TErrorData>([NotNull] JToken token) {
             if (!IsResponseValid(token, out string errorMessage)) {
                 throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + errorMessage);
