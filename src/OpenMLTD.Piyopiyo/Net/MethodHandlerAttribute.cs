@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 
 namespace OpenMLTD.Piyopiyo.Net {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public sealed class MethodHandlerAttribute : Attribute {
 
         public MethodHandlerAttribute([NotNull] string method) {

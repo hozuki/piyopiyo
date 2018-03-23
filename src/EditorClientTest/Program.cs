@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using OpenMLTD.Piyopiyo;
 using OpenMLTD.Piyopiyo.Net;
 
 namespace EditorClientTest {

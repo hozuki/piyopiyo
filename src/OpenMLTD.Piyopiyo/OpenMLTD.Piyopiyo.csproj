@@ -64,7 +64,7 @@
     <Compile Include="Net\JsonRpcCallResult.cs" />
     <Compile Include="Net\JsonRpcClient.cs" />
     <Compile Include="BvspHelper.cs" />
-    <Compile Include="Net\CommonProtocolMethodNames.cs" />
+    <Compile Include="CommonProtocolMethodNames.cs" />
     <Compile Include="Net\JsonRpcServer.cs" />
     <Compile Include="DisposableBase.cs" />
     <Compile Include="Editor\EditorServer.cs" />

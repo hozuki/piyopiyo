@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace OpenMLTD.Piyopiyo.Net {
+namespace OpenMLTD.Piyopiyo {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static class CommonProtocolMethodNames {
 
+        public const string General_SimLaunched = "general/simLaunched";
         public const string General_SimInitialize = "general/simInitialize";
         public const string General_SimInitialized = "general/simInitialized";
         public const string General_EdExit = "general/edExit";

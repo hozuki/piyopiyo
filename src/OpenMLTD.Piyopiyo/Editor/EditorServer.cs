@@ -9,6 +9,11 @@ namespace OpenMLTD.Piyopiyo.Editor {
             ScanSessionHandlers(this);
         }
 
+        [MethodHandler(CommonProtocolMethodNames.General_SimLaunched)]
+        protected virtual void OnGeneralSimLaunched([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
+            e.Context.RpcErrorNotImplemented();
+        }
+
         [MethodHandler(CommonProtocolMethodNames.General_SimInitialized)]
         protected virtual void OnGeneralSimInitialized([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
             e.Context.RpcErrorNotImplemented();
