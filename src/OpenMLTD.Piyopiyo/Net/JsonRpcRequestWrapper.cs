@@ -34,6 +34,45 @@ namespace OpenMLTD.Piyopiyo.Net {
             return wrapper;
         }
 
+        /// <summary>
+        /// Creates a <see cref="JsonRpcRequestWrapper"/> from a given RPC method name, a params object, and an optional command ID.
+        /// Please note that the declaration order of members of the param object reflects on the order of parameter array elements.
+        /// </summary>
+        /// <param name="method">The RPC method name.</param>
+        /// <param name="paramObject">An object containing parameters.</param>
+        /// <param name="id">Command ID. This parameter is optional.</param>
+        /// <returns></returns>
+        [NotNull]
+        public static JsonRpcRequestWrapper FromParamObject([NotNull] string method, [CanBeNull] object paramObject, [CanBeNull] string id = null) {
+            List<JToken> paramList;
+
+            if (paramObject == null) {
+                paramList = null;
+            } else {
+                var jobject = JObject.FromObject(paramObject, BvspHelper.JsonSerializer.Value);
+
+                paramList = new List<JToken>();
+
+                foreach (var property in jobject.Properties()) {
+                    paramList.Add(property.Value);
+                }
+            }
+
+            var wrapper = new JsonRpcRequestWrapper {
+                Params = new JArray(),
+                Method = method,
+                Id = id
+            };
+
+            if (paramList != null) {
+                foreach (var param in paramList) {
+                    wrapper.Params.Add(param);
+                }
+            }
+
+            return wrapper;
+        }
+
         [CanBeNull]
         [ContractAnnotation("paramArray:null => null; paramArray:notnull => notnull")]
         public static T ParamArrayToObject<T>([CanBeNull] JArray paramArray) {

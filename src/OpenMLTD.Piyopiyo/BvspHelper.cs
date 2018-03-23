@@ -82,7 +82,7 @@ namespace OpenMLTD.Piyopiyo {
             return result;
         }
 
-        private static readonly Lazy<JsonSerializer> JsonSerializer = new Lazy<JsonSerializer>(() => new JsonSerializer());
+        internal static readonly Lazy<JsonSerializer> JsonSerializer = new Lazy<JsonSerializer>(() => new JsonSerializer());
 
     }
 }
