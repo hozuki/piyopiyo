@@ -50,7 +50,7 @@ namespace OpenMLTD.Piyopiyo.Simulator {
         }
 
         [MethodHandler(CommonProtocolMethodNames.Edit_Reload)]
-        protected virtual void OnGeneralEditReload([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
+        protected virtual void OnEditReload([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
             e.Context.RpcErrorNotImplemented();
         }
 
