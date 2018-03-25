@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -99,7 +99,7 @@ namespace OpenMLTD.Piyopiyo.Net {
             }
 
             // TODO: This will only handle classes with the default constructor (new()), and structs. Classes without a default constructor will throw exception at this line.
-            var obj = Activator.CreateInstance(objectType);
+            var obj = Activator.CreateInstance(objectType, true);
 
             const bool serializeCompilerGeneratedFields = false;
 
