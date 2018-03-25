@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using OpenMLTD.Piyopiyo.Extensions;
 using OpenMLTD.Piyopiyo.Net;
 
@@ -41,6 +41,11 @@ namespace OpenMLTD.Piyopiyo.Editor {
 
         [MethodHandler(CommonProtocolMethodNames.Preview_Stopped)]
         protected virtual void OnPreviewStopped([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
+            e.Context.RpcErrorNotImplemented();
+        }
+
+        [MethodHandler(CommonProtocolMethodNames.Preview_SeekingCompleted)]
+        protected virtual void OnSeekingCompleted([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
             e.Context.RpcErrorNotImplemented();
         }
 

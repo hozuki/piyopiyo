@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenMLTD.Piyopiyo {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -20,6 +20,7 @@ namespace OpenMLTD.Piyopiyo {
         public const string Preview_Stopped = "preview/stopped";
         public const string Preview_GetPlaybackState = "preview/getPlaybackState";
         public const string Preview_GotoTime = "preview/gotoTime";
+        public const string Preview_SeekingCompleted = "preview/seekingCompleted";
 
         public const string Edit_Reload = "edit/reload";
         public const string Edit_Reloaded = "edit/reloaded";
