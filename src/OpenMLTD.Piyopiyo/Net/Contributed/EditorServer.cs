@@ -1,8 +1,8 @@
 using JetBrains.Annotations;
 using OpenMLTD.Piyopiyo.Extensions;
-using OpenMLTD.Piyopiyo.Net;
+using OpenMLTD.Piyopiyo.Net.JsonRpc;
 
-namespace OpenMLTD.Piyopiyo.Editor {
+namespace OpenMLTD.Piyopiyo.Net.Contributed {
     public class EditorServer : JsonRpcServer {
 
         public EditorServer() {
@@ -11,11 +11,6 @@ namespace OpenMLTD.Piyopiyo.Editor {
 
         [MethodHandler(CommonProtocolMethodNames.General_SimLaunched)]
         protected virtual void OnGeneralSimLaunched([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
-            e.Context.RpcErrorNotImplemented();
-        }
-
-        [MethodHandler(CommonProtocolMethodNames.General_SimInitialized)]
-        protected virtual void OnGeneralSimInitialized([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
             e.Context.RpcErrorNotImplemented();
         }
 
@@ -44,8 +39,8 @@ namespace OpenMLTD.Piyopiyo.Editor {
             e.Context.RpcErrorNotImplemented();
         }
 
-        [MethodHandler(CommonProtocolMethodNames.Preview_SeekingCompleted)]
-        protected virtual void OnSeekingCompleted([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
+        [MethodHandler(CommonProtocolMethodNames.Preview_Sought)]
+        protected virtual void OnPreviewSought([NotNull] object sender, [NotNull] JsonRpcMethodEventArgs e) {
             e.Context.RpcErrorNotImplemented();
         }
 

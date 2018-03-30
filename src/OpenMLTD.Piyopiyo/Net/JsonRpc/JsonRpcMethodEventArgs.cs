@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using NHttp;
 
-namespace OpenMLTD.Piyopiyo.Net {
+namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
     public sealed class JsonRpcMethodEventArgs : EventArgs {
 
         internal JsonRpcMethodEventArgs([NotNull] HttpContext context, [NotNull] string parsedRequestBody, [NotNull] JObject parsedRequestObject) {

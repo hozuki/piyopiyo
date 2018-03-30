@@ -2,8 +2,9 @@
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using OpenMLTD.Piyopiyo.Editor;
-using OpenMLTD.Piyopiyo.Net;
+using OpenMLTD.Piyopiyo;
+using OpenMLTD.Piyopiyo.Net.Contributed;
+using OpenMLTD.Piyopiyo.Net.JsonRpc;
 
 namespace EditorTest {
     internal static class Program {
@@ -59,10 +60,14 @@ namespace EditorTest {
 
             var jobj = JObject.Parse(json);
             var obj = JsonRpcHelper.TranslateAsRequest(jobj);
-            var @params = JsonRpcRequestWrapper.ParamArrayToObject<SimpleClass>(obj.Params);
+            var @params = BvspHelper.ParamArrayToObject<SimpleClass>(obj.Params);
             var serialized = JsonConvert.SerializeObject(@params);
 
             Debug.Print(serialized);
+
+            var fullObjectSerialized = BvspHelper.JsonSerializeRequestToString(obj);
+
+            Debug.Print(fullObjectSerialized);
         }
 
         private static void TestRequestDeserialization() {
@@ -73,7 +78,7 @@ namespace EditorTest {
 ]";
             var array = JArray.Parse(json);
 
-            var cls = JsonRpcRequestWrapper.ParamArrayToObject<SimpleClass>(array);
+            var cls = BvspHelper.ParamArrayToObject<SimpleClass>(array);
 
             var serialized = JsonConvert.SerializeObject(cls);
 

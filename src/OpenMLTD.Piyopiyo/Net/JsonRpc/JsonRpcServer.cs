@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 using NHttp;
 using OpenMLTD.Piyopiyo.Extensions;
 
-namespace OpenMLTD.Piyopiyo.Net {
+namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
     public abstract class JsonRpcServer : DisposableBase {
 
         protected JsonRpcServer() {

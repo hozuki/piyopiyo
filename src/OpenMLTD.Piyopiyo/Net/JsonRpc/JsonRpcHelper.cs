@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 
-namespace OpenMLTD.Piyopiyo.Net {
+namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
     public static class JsonRpcHelper {
 
         public static bool IsRequestValid([NotNull] JToken obj) {
@@ -80,47 +79,29 @@ namespace OpenMLTD.Piyopiyo.Net {
         }
 
         [NotNull]
-        public static JsonRpcRequestWrapper TranslateAsRequest([NotNull] JToken token) {
+        public static RequestMessage TranslateAsRequest([NotNull] JToken token) {
             if (!IsRequestValid(token, out string errorMessage)) {
                 throw new FormatException("The response object is not a valid JSON RPC 2.0 request object:\n" + errorMessage);
             }
 
-            var obj = token.ToObject<JsonRpcRequestWrapper>();
+            var obj = token.ToObject<RequestMessage>();
+
+            obj.ShouldSerializeIdMember = obj.HasId;
 
             return obj;
         }
 
         [NotNull]
-        public static JsonRpcErrorWrapper<TErrorData> TranslateAsError<TErrorData>([NotNull] JToken token) {
+        public static ResponseMessage TranslateAsResponse([NotNull] JToken token) {
             if (!IsResponseValid(token, out string errorMessage)) {
-                throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + errorMessage);
+                throw new FormatException("The response object is not a valid JSON RPC 2.0 response object:\n" + errorMessage);
             }
 
-            if (token["error"] != null) {
-                var result = token.ToObject<JsonRpcErrorWrapper<TErrorData>>();
-                return result;
-            } else {
-                throw new FormatException("The response object does not contain a valid error object. Maybe it contains a response object.");
-            }
-        }
+            var obj = token.ToObject<ResponseMessage>();
 
-        [NotNull]
-        public static JsonRpcErrorWrapper<object> TranslateAsError([NotNull] JToken token) {
-            return TranslateAsError<object>(token);
-        }
+            obj.ShouldSerializeAsSuccessful = obj.IsSuccessful;
 
-        [NotNull]
-        public static JsonRpcResponseWrapper<TResult> TranslateAsResponse<TResult>([NotNull] JToken token) {
-            if (!IsResponseValid(token, out string errorMessage)) {
-                throw new FormatException("The response object is not a valid JSON RPC 2.0 respose object:\n" + errorMessage);
-            }
-
-            if (token["result"] != null) {
-                var result = token.ToObject<JsonRpcResponseWrapper<TResult>>();
-                return result;
-            } else {
-                throw new FormatException("The response object does not contain a valid response object. Maybe it contains an error object.");
-            }
+            return obj;
         }
 
         // https://github.com/fge/sample-json-schemas/tree/master/jsonrpc2.0

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 
-namespace OpenMLTD.Piyopiyo.Net {
+namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
     public class JsonRpcClient : DisposableBase {
 
         public JsonRpcClient() {
@@ -20,15 +20,15 @@ namespace OpenMLTD.Piyopiyo.Net {
         }
 
         [NotNull, ItemNotNull]
-        public Task<JsonRpcCallResult> CallAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull] object arguments, [CanBeNull] string id = null) {
-            var requestObject = JsonRpcRequestWrapper.FromParamObject(method, arguments, id);
+        public Task<CallResult> CallAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull] object arguments, [CanBeNull] string id = null) {
+            var requestObject = RequestMessage.FromParamObject(method, arguments, id);
 
             return CallAsync(serverUri, requestObject);
         }
 
         [NotNull, ItemNotNull]
-        public Task<JsonRpcCallResult> CallAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull, ItemCanBeNull] IEnumerable arguments = null, [CanBeNull] string id = null) {
-            var requestObject = JsonRpcRequestWrapper.FromParams(method, arguments, id);
+        public Task<CallResult> CallAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull, ItemCanBeNull] IEnumerable arguments = null, [CanBeNull] string id = null) {
+            var requestObject = RequestMessage.FromParams(method, arguments, id);
 
             return CallAsync(serverUri, requestObject);
         }
@@ -43,8 +43,8 @@ namespace OpenMLTD.Piyopiyo.Net {
             _baseClient.Dispose();
         }
 
-        private async Task<JsonRpcCallResult> CallAsync([NotNull] Uri serverUri, [NotNull] JsonRpcRequestWrapper requestObject) {
-            var requestText = BvspHelper.JsonSerializeToString(requestObject);
+        private async Task<CallResult> CallAsync([NotNull] Uri serverUri, [NotNull] RequestMessage requestObject) {
+            var requestText = BvspHelper.JsonSerializeRequestToString(requestObject);
 
             var httpContent = new StringContent(requestText, BvspHelper.Utf8WithoutBom);
 
@@ -58,10 +58,10 @@ namespace OpenMLTD.Piyopiyo.Net {
                 response = await _baseClient.PostAsync(serverUri, httpContent);
             } catch (AggregateException ex) {
                 Debug.Print(ex.ToString());
-                return new JsonRpcCallResult(HttpStatusCode.BadRequest, null);
+                return new CallResult(HttpStatusCode.BadRequest, null);
             } catch (Exception ex) {
                 Debug.Print(ex.ToString());
-                return new JsonRpcCallResult(HttpStatusCode.BadRequest, null);
+                return new CallResult(HttpStatusCode.BadRequest, null);
             }
 
             JToken token = null;
@@ -74,7 +74,7 @@ namespace OpenMLTD.Piyopiyo.Net {
                 }
             }
 
-            return new JsonRpcCallResult(response.StatusCode, token);
+            return new CallResult(response.StatusCode, token);
         }
 
         private readonly HttpClient _baseClient;

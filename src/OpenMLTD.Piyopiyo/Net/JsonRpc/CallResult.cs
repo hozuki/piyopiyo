@@ -2,10 +2,10 @@
 using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 
-namespace OpenMLTD.Piyopiyo.Net {
-    public sealed class JsonRpcCallResult {
+namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
+    public sealed class CallResult {
 
-        internal JsonRpcCallResult(HttpStatusCode statusCode, [CanBeNull] JToken responseObject) {
+        internal CallResult(HttpStatusCode statusCode, [CanBeNull] JToken responseObject) {
             StatusCode = statusCode;
             ResponseObject = responseObject;
         }

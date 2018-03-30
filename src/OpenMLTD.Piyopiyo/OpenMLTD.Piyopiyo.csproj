@@ -62,25 +62,28 @@
   <ItemGroup>
     <Compile Include="Extensions\HttpStatusCodeExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
-    <Compile Include="Net\JsonRpcCallResult.cs" />
-    <Compile Include="Net\JsonRpcClient.cs" />
+    <Compile Include="Net\JsonRpc\CallResult.cs" />
+    <Compile Include="Net\JsonRpc\JsonRpcClient.cs" />
     <Compile Include="BvspHelper.cs" />
     <Compile Include="CommonProtocolMethodNames.cs" />
-    <Compile Include="Net\JsonRpcServer.cs" />
+    <Compile Include="Net\JsonRpc\Message.cs" />
+    <Compile Include="Net\JsonRpc\JsonRpcServer.cs" />
     <Compile Include="DisposableBase.cs" />
-    <Compile Include="Editor\EditorServer.cs" />
+    <Compile Include="Net\Contributed\EditorServer.cs" />
     <Compile Include="Extensions\HttpContextExtensions.cs" />
-    <Compile Include="Net\JsonRpcErrorCodes.cs" />
-    <Compile Include="Net\JsonRpcMethodEventArgs.cs" />
-    <Compile Include="Net\JsonRpcMethodHandler.cs" />
-    <Compile Include="Net\JsonRpcRequestWrapper.cs" />
-    <Compile Include="Net\JsonRpcResponseWrapper.cs" />
-    <Compile Include="Net\JsonRpcErrorWrapper`1.cs" />
-    <Compile Include="Net\JsonRpcResponseWrapper`1.cs" />
+    <Compile Include="Net\JsonRpc\JsonRpcErrorCodes.cs" />
+    <Compile Include="Net\JsonRpc\JsonRpcMethodEventArgs.cs" />
+    <Compile Include="Net\JsonRpc\JsonRpcMethodHandler.cs" />
+    <Compile Include="Net\JsonRpc\RequestMessage.cs" />
+    <Compile Include="Net\JsonRpc\RequestMessageContractResolver.cs" />
+    <Compile Include="Net\JsonRpc\ResponseError.cs" />
+    <Compile Include="Net\JsonRpc\ResponseMessage.cs" />
+    <Compile Include="Net\JsonRpc\ResponseMessageContractResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Net\MethodHandlerAttribute.cs" />
-    <Compile Include="Net\JsonRpcHelper.cs" />
-    <Compile Include="Simulator\SimulatorServer.cs" />
+    <Compile Include="Net\JsonRpc\JsonRpcHelper.cs" />
+    <Compile Include="PropertyOrField.cs" />
+    <Compile Include="Net\Contributed\SimulatorServer.cs" />
     <Compile Include="TypeHelper.cs" />
   </ItemGroup>
   <ItemGroup />

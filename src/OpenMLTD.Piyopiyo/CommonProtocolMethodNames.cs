@@ -6,10 +6,8 @@ namespace OpenMLTD.Piyopiyo {
 
         public const string General_SimLaunched = "general/simLaunched";
         public const string General_SimInitialize = "general/simInitialize";
-        public const string General_SimInitialized = "general/simInitialized";
-        public const string General_EdExit = "general/edExit";
-        public const string General_SimExit = "general/simExit";
         public const string General_SimExited = "general/simExited";
+        public const string General_EdExited = "general/edExited";
 
         public const string Preview_Play = "preview/play";
         public const string Preview_Playing = "preview/playing";
@@ -19,8 +17,8 @@ namespace OpenMLTD.Piyopiyo {
         public const string Preview_Stop = "preview/stop";
         public const string Preview_Stopped = "preview/stopped";
         public const string Preview_GetPlaybackState = "preview/getPlaybackState";
-        public const string Preview_GotoTime = "preview/gotoTime";
-        public const string Preview_SeekingCompleted = "preview/seekingCompleted";
+        public const string Preview_SeekByTime = "preview/seekByTime";
+        public const string Preview_Sought = "preview/sought";
 
         public const string Edit_Reload = "edit/reload";
         public const string Edit_Reloaded = "edit/reloaded";

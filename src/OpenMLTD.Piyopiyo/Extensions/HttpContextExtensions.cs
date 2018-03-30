@@ -4,14 +4,14 @@ using System.Net;
 using System.Text;
 using JetBrains.Annotations;
 using NHttp;
-using OpenMLTD.Piyopiyo.Net;
+using OpenMLTD.Piyopiyo.Net.JsonRpc;
 
 namespace OpenMLTD.Piyopiyo.Extensions {
     public static class HttpContextExtensions {
 
         public static void RpcOk<T>([NotNull] this HttpContext context, [CanBeNull] T result, [CanBeNull] string id = null) {
-            var responseObject = JsonRpcResponseWrapper.FromResult(result, id);
-            var responseText = BvspHelper.JsonSerializeToString(responseObject);
+            var responseObject = ResponseMessage.FromResult(result, id);
+            var responseText = BvspHelper.JsonSerializeResponseToString(responseObject);
 
             Ok(context, responseText);
         }
@@ -21,8 +21,8 @@ namespace OpenMLTD.Piyopiyo.Extensions {
         }
 
         public static void RpcError<T>([NotNull] this HttpContext context, int errorCode, [NotNull] string message, [CanBeNull] T data, [CanBeNull] string id = null, HttpStatusCode statusCode = HttpStatusCode.BadRequest) {
-            var responseObject = JsonRpcResponseWrapper.FromError(errorCode, message, data, id);
-            var responseText = BvspHelper.JsonSerializeToString(responseObject);
+            var responseObject = ResponseMessage.FromError(errorCode, message, data, id);
+            var responseText = BvspHelper.JsonSerializeResponseToString(responseObject);
 
             Respond(context, statusCode, responseText);
         }
