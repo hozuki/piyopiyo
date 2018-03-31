@@ -70,7 +70,7 @@ namespace EditorClientTest {
             var serverUri = new Uri("http://localhost:" + port.ToString());
 
             using (var client = new JsonRpcClient()) {
-                var result = await client.CallAsync(serverUri, methodName);
+                var result = await client.SendRequestAsync(serverUri, methodName, null, null);
 
                 Console.WriteLine("Response status code: {0} ({1})", (int)result.StatusCode, result.StatusCode);
 

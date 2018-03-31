@@ -49,6 +49,8 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
 
         public bool IsRunning { get; private set; }
 
+        internal const string ServerBanner = "Piyopiyo";
+
         protected HttpServer BaseServer => _server;
 
         protected override void Dispose(bool disposing) {
@@ -335,7 +337,6 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
 
         }
 
-        private const string ServerBanner = "Piyopiyo";
         private const long MaxRequestBodySize = 10 * 1024 * 1024;
 
         private readonly HttpServer _server;

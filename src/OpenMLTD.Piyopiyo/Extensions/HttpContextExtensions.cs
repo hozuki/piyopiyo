@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using JetBrains.Annotations;
 using NHttp;
@@ -13,7 +15,9 @@ namespace OpenMLTD.Piyopiyo.Extensions {
             var responseObject = ResponseMessage.FromResult(result, id);
             var responseText = BvspHelper.JsonSerializeResponseToString(responseObject);
 
-            Ok(context, responseText);
+            var headers = GetCommonServerHeaders();
+
+            Ok(context, responseText, BvspHelper.Utf8WithoutBom, headers);
         }
 
         public static void RpcOk([NotNull] this HttpContext context, [CanBeNull] string id = null) {
@@ -24,7 +28,9 @@ namespace OpenMLTD.Piyopiyo.Extensions {
             var responseObject = ResponseMessage.FromError(errorCode, message, data, id);
             var responseText = BvspHelper.JsonSerializeResponseToString(responseObject);
 
-            Respond(context, statusCode, responseText);
+            var headers = GetCommonServerHeaders();
+
+            Respond(context, statusCode, responseText, BvspHelper.Utf8WithoutBom, headers);
         }
 
         public static void RpcErrorNotImplemented([NotNull] this HttpContext context, [CanBeNull] string id = null) {
@@ -124,6 +130,21 @@ namespace OpenMLTD.Piyopiyo.Extensions {
                     }
                 }
             }
+        }
+
+        [NotNull]
+        private static Dictionary<string, string> GetCommonServerHeaders() {
+            var mediaType = new MediaTypeHeaderValue(BvspHelper.BvspContentType);
+
+            mediaType.CharSet = BvspHelper.BvspCharSet;
+
+            var headers = new Dictionary<string, string> {
+                ["X-Server"] = JsonRpcServer.ServerBanner,
+                ["Content-Type"] = mediaType.ToString(),
+                ["Date"] = DateTime.Now.ToGmtString()
+            };
+
+            return headers;
         }
 
     }

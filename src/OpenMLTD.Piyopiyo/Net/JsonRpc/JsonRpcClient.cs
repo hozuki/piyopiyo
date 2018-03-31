@@ -20,15 +20,43 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
         }
 
         [NotNull, ItemNotNull]
-        public Task<CallResult> CallAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull] object arguments, [CanBeNull] string id = null) {
+        public Task<CallResult> SendRequestAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull] object arguments, [CanBeNull] string id) {
             var requestObject = RequestMessage.FromParamObject(method, arguments, id);
 
             return CallAsync(serverUri, requestObject);
         }
 
         [NotNull, ItemNotNull]
-        public Task<CallResult> CallAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull, ItemCanBeNull] IEnumerable arguments = null, [CanBeNull] string id = null) {
+        public Task<CallResult> SendRequestAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull, ItemCanBeNull] IEnumerable arguments, [CanBeNull] string id) {
             var requestObject = RequestMessage.FromParams(method, arguments, id);
+
+            return CallAsync(serverUri, requestObject);
+        }
+
+        [NotNull, ItemNotNull]
+        public Task<CallResult> SendRequestAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull] object arguments, int id) {
+            var requestObject = RequestMessage.FromParamObject(method, arguments, id);
+
+            return CallAsync(serverUri, requestObject);
+        }
+
+        [NotNull, ItemNotNull]
+        public Task<CallResult> SendRequestAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull, ItemCanBeNull] IEnumerable arguments, int id) {
+            var requestObject = RequestMessage.FromParams(method, arguments, id);
+
+            return CallAsync(serverUri, requestObject);
+        }
+
+        [NotNull, ItemNotNull]
+        public Task<CallResult> SendNotificationAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull] object arguments) {
+            var requestObject = RequestMessage.FromParamObject(method, arguments);
+
+            return CallAsync(serverUri, requestObject);
+        }
+
+        [NotNull, ItemNotNull]
+        public Task<CallResult> SendNotificationAsync([NotNull] Uri serverUri, [NotNull] string method, [CanBeNull, ItemCanBeNull] IEnumerable arguments = null) {
+            var requestObject = RequestMessage.FromParams(method, arguments);
 
             return CallAsync(serverUri, requestObject);
         }
@@ -43,6 +71,7 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
             _baseClient.Dispose();
         }
 
+        [NotNull, ItemCanBeNull]
         private async Task<CallResult> CallAsync([NotNull] Uri serverUri, [NotNull] RequestMessage requestObject) {
             var requestText = BvspHelper.JsonSerializeRequestToString(requestObject);
 
