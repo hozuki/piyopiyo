@@ -23,11 +23,15 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
         }
 
         public void Start(int port) {
+            Start(IPAddress.Loopback, port);
+        }
+
+        public void Start([NotNull] IPAddress ipAddress, int port) {
             if (IsRunning) {
                 return;
             }
 
-            _server.EndPoint = new IPEndPoint(IPAddress.Any, port);
+            _server.EndPoint = new IPEndPoint(ipAddress, port);
             _server.Start();
 
             IsRunning = true;
