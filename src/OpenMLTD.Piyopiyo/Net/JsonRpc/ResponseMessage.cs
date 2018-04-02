@@ -10,21 +10,33 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
     public sealed class ResponseMessage {
 
         [JsonConstructor]
-        internal ResponseMessage() {
+        private ResponseMessage() {
         }
 
+        /// <summary>
+        /// Gets the request ID. <see langword="null"/> if this response is not triggered by a <see cref="RequestMessage"/>.
+        /// </summary>
         [JsonProperty]
         [CanBeNull]
         public JToken Id { get; internal set; }
 
+        /// <summary>
+        /// Gets the error information. <see langword="null"/> if this response is a successful response.
+        /// </summary>
         [JsonProperty]
         [CanBeNull]
         public ResponseError Error { get; internal set; }
 
+        /// <summary>
+        /// Gets the result object. <see langword="null"/> if this response is a failed response.
+        /// </summary>
         [JsonProperty]
         [CanBeNull]
         public JToken Result { get; internal set; }
 
+        /// <summary>
+        /// Gets whether this response is successful.
+        /// </summary>
         [JsonIgnore]
         public bool IsSuccessful {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -103,12 +115,24 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
             };
         }
 
+        /// <summary>
+        /// Gets strong typed result object from <see cref="Result"/>.
+        /// Returns <see langword="null"/> if the conversion fails.
+        /// </summary>
+        /// <typeparam name="T">Result object type.</typeparam>
+        /// <returns>Strong typed result object.</returns>
         [CanBeNull]
         public T GetResult<T>() {
             var obj = GetResult(typeof(T));
             return (T)obj;
         }
 
+        /// <summary>
+        /// Gets strong typed result object from <see cref="Result"/>.
+        /// Returns <see langword="null"/> if the conversion fails.
+        /// </summary>
+        /// <param name="resultType">Type of the result object.</param>
+        /// <returns>Strong typed result object.</returns>
         [CanBeNull]
         public object GetResult([NotNull] Type resultType) {
             var canUseCache = _isResultDeserialized && resultType == _resultDeserializedType;

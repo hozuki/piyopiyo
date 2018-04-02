@@ -21,13 +21,83 @@ namespace OpenMLTD.Piyopiyo {
         [NotNull]
         public static readonly Encoding Utf8WithoutBom = new UTF8Encoding(false);
 
-        // Why can't JSON.NET handle this?
+        /// <summary>
+        /// Creates a <see cref="JToken"/> from given <see cref="object"/>.
+        /// This method wraps a layer for <see langword="null"/> value, which throws <see cref="ArgumentNullException"/> when passing to <see cref="JToken.FromObject(object)"/>.
+        /// </summary>
+        /// <param name="obj">The object to serialize.</param>
+        /// <remarks>
+        /// Json.NET should have handled this value properly.
+        /// </remarks>
+        /// <returns>Created <see cref="JToken"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [NotNull]
         public static JToken CreateJToken([CanBeNull] object obj) {
             if (ReferenceEquals(obj, null)) {
                 return JValue.CreateNull();
             } else {
                 return JToken.FromObject(obj);
+            }
+        }
+
+        /// <summary>
+        /// Creates a <see cref="JToken"/> from given <see cref="object"/>.
+        /// This method wraps a layer for <see langword="null"/> value, which throws <see cref="ArgumentNullException"/> when passing to <see cref="JToken.FromObject(object, JsonSerializer)"/>.
+        /// </summary>
+        /// <param name="obj">The object to serialize.</param>
+        /// <param name="serializer">The <see cref="JsonSerializer"/> to use.</param>
+        /// <remarks>
+        /// Json.NET should have handled this value properly.
+        /// </remarks>
+        /// <returns>Created <see cref="JToken"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [NotNull]
+        public static JToken CreateJToken([CanBeNull] object obj, [NotNull] JsonSerializer serializer) {
+            if (ReferenceEquals(obj, null)) {
+                return JValue.CreateNull();
+            } else {
+                return JToken.FromObject(obj, serializer);
+            }
+        }
+
+        /// <summary>
+        /// Creates a <see cref="JObject"/> from given <see cref="object"/>.
+        /// This method wraps a layer for <see langword="null"/> value, which throws <see cref="ArgumentNullException"/> when passing to <see cref="JObject.FromObject(object)"/>.
+        /// </summary>
+        /// <param name="obj">The object to serialize.</param>
+        /// <remarks>
+        /// Json.NET should have handled this value properly.
+        /// </remarks>
+        /// <returns>Created <see cref="JObject"/>, or <see langword="null"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [CanBeNull]
+        [ContractAnnotation("obj:null => null; obj:notnull => notnull")]
+        public static JObject CreateJObject([CanBeNull] object obj) {
+            if (ReferenceEquals(obj, null)) {
+                return null;
+            } else {
+                return JObject.FromObject(obj);
+            }
+        }
+
+        /// <summary>
+        /// Creates a <see cref="JObject"/> from given <see cref="object"/>.
+        /// This method wraps a layer for <see langword="null"/> value, which throws <see cref="ArgumentNullException"/> when passing to <see cref="JObject.FromObject(object, JsonSerializer)"/>.
+        /// </summary>
+        /// <param name="obj">The object to serialize.</param>
+        /// <param name="serializer">The <see cref="JsonSerializer"/> to use.</param>
+        /// <remarks>
+        /// Json.NET should have handled this value properly.
+        /// </remarks>
+        /// <returns>Created <see cref="JObject"/>, or <see langword="null"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [CanBeNull]
+        [ContractAnnotation("obj:null => null; obj:notnull => notnull")]
+        public static JObject CreateJObject([CanBeNull] object obj, [NotNull] JsonSerializer serializer) {
+            if (ReferenceEquals(obj, null)) {
+                return null;
+            } else {
+                return JObject.FromObject(obj, serializer);
             }
         }
 
