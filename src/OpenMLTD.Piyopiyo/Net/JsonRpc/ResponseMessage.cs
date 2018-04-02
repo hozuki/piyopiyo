@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -33,20 +33,24 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
 
         [NotNull]
         public static ResponseMessage FromResult([CanBeNull] object result, [CanBeNull] string id) {
-            return new ResponseMessage {
-                Result = JToken.FromObject(result),
-                Id = id,
-                ShouldSerializeAsSuccessful = true
-            };
+            var message = new ResponseMessage();
+
+            message.Result = BvspHelper.CreateJToken(result);
+            message.Id = id;
+            message.ShouldSerializeAsSuccessful = true;
+
+            return message;
         }
 
         [NotNull]
         public static ResponseMessage FromResult([CanBeNull] object result, int id) {
-            return new ResponseMessage {
-                Result = JToken.FromObject(result),
-                Id = id,
-                ShouldSerializeAsSuccessful = true
-            };
+            var message = new ResponseMessage();
+
+            message.Result = BvspHelper.CreateJToken(result);
+            message.Id = id;
+            message.ShouldSerializeAsSuccessful = true;
+
+            return message;
         }
 
         [NotNull]
@@ -55,7 +59,7 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
                 Error = new ResponseError {
                     Code = code,
                     Message = message,
-                    Data = JToken.FromObject(data)
+                    Data = BvspHelper.CreateJToken(data)
                 },
                 Id = id,
                 ShouldSerializeAsSuccessful = false
@@ -68,7 +72,7 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
                 Error = new ResponseError {
                     Code = code,
                     Message = message,
-                    Data = JToken.FromObject(data)
+                    Data = BvspHelper.CreateJToken(data)
                 },
                 Id = id,
                 ShouldSerializeAsSuccessful = false

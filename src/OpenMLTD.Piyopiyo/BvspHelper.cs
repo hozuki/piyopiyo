@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -20,6 +20,16 @@ namespace OpenMLTD.Piyopiyo {
 
         [NotNull]
         public static readonly Encoding Utf8WithoutBom = new UTF8Encoding(false);
+
+        // Why can't JSON.NET handle this?
+        [NotNull]
+        public static JToken CreateJToken([CanBeNull] object obj) {
+            if (ReferenceEquals(obj, null)) {
+                return JValue.CreateNull();
+            } else {
+                return JToken.FromObject(obj);
+            }
+        }
 
         [NotNull]
         public static string JsonSerializeToString([NotNull] object obj, [NotNull] JsonSerializer serializer) {
