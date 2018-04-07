@@ -10,7 +10,7 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
         internal Message() {
         }
 
-        [JsonProperty("jsonrpc", Required = Required.Always)]
+        [JsonProperty("jsonrpc", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.Populate)]
         [NotNull]
         public string JsonRpcVersion { get; set; } = "2.0";
 

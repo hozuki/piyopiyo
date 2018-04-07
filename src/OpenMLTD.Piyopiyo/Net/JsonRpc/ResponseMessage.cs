@@ -7,7 +7,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public sealed class ResponseMessage {
+    public sealed class ResponseMessage : Message {
 
         [JsonConstructor]
         private ResponseMessage() {
