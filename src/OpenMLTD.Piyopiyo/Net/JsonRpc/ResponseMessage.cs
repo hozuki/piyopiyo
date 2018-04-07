@@ -151,6 +151,7 @@ namespace OpenMLTD.Piyopiyo.Net.JsonRpc {
             return _deserializedResult;
         }
 
+        [JsonIgnore]
         internal bool ShouldSerializeAsSuccessful { get; set; }
 
         [CanBeNull]

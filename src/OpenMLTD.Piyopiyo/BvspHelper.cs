@@ -123,13 +123,13 @@ namespace OpenMLTD.Piyopiyo {
         }
 
         [NotNull]
-        public static string JsonSerializeRequestToString([NotNull] object obj) {
-            return JsonSerializeToString(obj, RequestJsonSerializer);
+        public static string JsonSerializeRequestToString([NotNull] RequestMessage message) {
+            return JsonSerializeToString(message, RequestJsonSerializer);
         }
 
         [NotNull]
-        public static string JsonSerializeResponseToString([NotNull] object obj) {
-            return JsonSerializeToString(obj, ResponseJsonSerializer);
+        public static string JsonSerializeResponseToString([NotNull] ResponseMessage message) {
+            return JsonSerializeToString(message, ResponseJsonSerializer);
         }
 
         [CanBeNull]
@@ -311,7 +311,7 @@ namespace OpenMLTD.Piyopiyo {
             get {
                 if (_requestJsonSerializer == null) {
                     _requestJsonSerializer = new JsonSerializer {
-                        ContractResolver = new RequestMessageContractResolver()
+                        ContractResolver = RequestMessageContractResolver.Instance
                     };
                 }
 
@@ -324,7 +324,7 @@ namespace OpenMLTD.Piyopiyo {
             get {
                 if (_responseJsonSerializer == null) {
                     _responseJsonSerializer = new JsonSerializer {
-                        ContractResolver = new ResponseMessageContractResolver()
+                        ContractResolver = ResponseMessageContractResolver.Instance
                     };
                 }
 

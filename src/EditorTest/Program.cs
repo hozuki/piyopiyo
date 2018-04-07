@@ -12,6 +12,7 @@ namespace EditorTest {
         private static void Main(string[] args) {
             TestRequestDeserialization();
             TestRequestWrapper();
+            TestConditionalResponse();
 
             var server = new EditorServer();
 
@@ -81,6 +82,18 @@ namespace EditorTest {
             var cls = BvspHelper.ParamArrayToObject<SimpleClass>(array);
 
             var serialized = JsonConvert.SerializeObject(cls);
+
+            Debug.Print(serialized);
+        }
+
+        private static void TestConditionalResponse() {
+            var responseObject = new {
+                abc = "def"
+            };
+
+            var responseMessage = ResponseMessage.FromResult(responseObject, 123);
+
+            var serialized = BvspHelper.JsonSerializeResponseToString(responseMessage);
 
             Debug.Print(serialized);
         }

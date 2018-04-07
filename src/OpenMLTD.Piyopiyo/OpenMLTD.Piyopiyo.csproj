@@ -64,6 +64,7 @@
     <Compile Include="Extensions\HttpStatusCodeExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Net\JsonRpc\CallResult.cs" />
+    <Compile Include="Net\JsonRpc\PiyopiyoContractResolver.cs" />
     <Compile Include="Net\JsonRpc\JsonRpcClient.cs" />
     <Compile Include="BvspHelper.cs" />
     <Compile Include="CommonProtocolMethodNames.cs" />
