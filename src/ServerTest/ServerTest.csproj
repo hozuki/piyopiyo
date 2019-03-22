@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFrameworks>net46;netcoreapp2.2</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Piyopiyo.Bvsp\Piyopiyo.Bvsp.csproj" />
+      <ProjectReference Include="..\Piyopiyo\Piyopiyo.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>OpenMLTD.Piyopiyo.Bvsp</RootNamespace>
+        <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Piyopiyo\Piyopiyo.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="2018.3.0" />
+    </ItemGroup>
+
+</Project>
